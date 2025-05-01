@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Times Virginian Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400&family=Anton&family=Roboto+Slab:wght@700&family=Special+Elite&family=Bungee&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="vh-100">
+    <div class="container-fluid h-100 p-0">
+        <div class="row h-100 g-0">
+            <div class="col-md-3 h-100">
+                <div class="search-container h-100 d-flex flex-column">
+                    <div class="p-3 mb-0">
+                        <div class="d-flex align-items-center" style="background-color: black; padding: 0.5rem 1rem; border-radius: 4px;">
+                            <div style="font-family: 'Instrument Serif', serif; font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; color: white;">Morningside</div>
+                        </div>
+                        <div style="font-size: 1.5rem; font-family: sans-serif; margin-top: 0.5rem;">Appomattox Times-Virginian</div>
+                        <div style="font-size: 1rem; color: #555; margin-top: 0.25rem;">
+                            <div style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                                Digital archives of the Appomattox Times-Virginian. Consists of 2.2 million paragraphs spanning from 1892 to 1984. Sponsored by the Town of Appomattox and the Appomattox County Historical Society
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Enter search term...">
+                            <button class="btn btn-primary" id="searchButton">Search</button>
+                        </div>
+
+                    </div>
+                    <div id="searchResults" class="list-group flex-grow-1 overflow-auto"></div>
+                    <div id="loadMoreContainer" class="p-3 border-top">
+                        <button id="loadMoreButton" class="btn btn-primary w-100" style="display: none;">Load More Results</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 h-100">
+                <div class="pdf-container h-100 position-relative">
+                    <div id="pdfMasonryOverlay" class="banner-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+                        <div class="banner-track banner-row-1 d-flex flex-row align-items-center">
+                            <span class="banner-word font-anton">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-bungee">APPOMATTOX, VA</span>
+                            <span class="banner-word font-slab">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-courier">APPOMATTOX, VA</span>
+                            <span class="banner-word font-elite">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-anton">APPOMATTOX, VA</span>
+                            <span class="banner-word font-bungee">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-slab">APPOMATTOX, VA</span>
+                            <span class="banner-word font-courier">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-elite">APPOMATTOX, VA</span>
+                        </div>
+                        <div class="banner-track banner-row-2 d-flex flex-row align-items-center">
+                            <span class="banner-word font-bungee">APPOMATTOX, VA</span>
+                            <span class="banner-word font-slab">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-courier">APPOMATTOX, VA</span>
+                            <span class="banner-word font-elite">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-anton">APPOMATTOX, VA</span>
+                            <span class="banner-word font-bungee">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-slab">APPOMATTOX, VA</span>
+                            <span class="banner-word font-courier">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-elite">APPOMATTOX, VA</span>
+                            <span class="banner-word font-anton">TIMES-VIRGINIAN</span>
+                        </div>
+                        <div class="banner-track banner-row-3 d-flex flex-row align-items-center">
+                            <span class="banner-word font-slab">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-courier">APPOMATTOX, VA</span>
+                            <span class="banner-word font-elite">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-anton">APPOMATTOX, VA</span>
+                            <span class="banner-word font-bungee">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-slab">APPOMATTOX, VA</span>
+                            <span class="banner-word font-courier">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-elite">APPOMATTOX, VA</span>
+                            <span class="banner-word font-anton">TIMES-VIRGINIAN</span>
+                            <span class="banner-word font-bungee">APPOMATTOX, VA</span>
+                        </div>
+                    </div>
+                    <div id="pdfViewer" class="h-100">
+                        <iframe id="pdfFrame" class="h-100 w-100"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <style>
+    .search-container {
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+    }
+
+    .search-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .toggle-label {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .search-result-item {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .search-result-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .search-result-item.active {
+        background-color: #e9ecef;
+    }
+
+    #loadMoreContainer {
+        background-color: white;
+    }
+
+    #loadMoreButton:disabled {
+        cursor: not-allowed;
+    }
+    </style>
+</body>
+</html> 
