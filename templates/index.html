@@ -20,17 +20,27 @@
                         </div>
                         <div style="font-size: 1.5rem; font-family: sans-serif; margin-top: 0.5rem;">Appomattox Times-Virginian</div>
                         <div style="font-size: 1rem; color: #555; margin-top: 0.25rem;">
-                            <div style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
-                                Digital archives of the Appomattox Times-Virginian. Consists of 2.2 million paragraphs spanning from 1892 to 1984. Sponsored by the Town of Appomattox and the Appomattox County Historical Society
+                            <!-- Collapsible Details & Attribution -->
+                            <div>
+                                <a href="#" onclick="toggleDetails(event)" style="color: #007bff; text-decoration: underline; font-size: 0.9rem; cursor: pointer;">
+                                    Details & Attribution
+                                </a>
+                                <div id="detailsContent" style="display: none; font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                                    Digital archives of the Appomattox Times-Virginian. Consists of 2.2 million paragraphs spanning from 1892 to 1984. Sponsored by the Town of Appomattox and the Appomattox County Historical Society
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="p-3">
-                        <div class="input-group">
+                        <!-- Search Bar -->
+                        <div class="input-group mb-2">
                             <input type="text" id="searchInput" class="form-control" placeholder="Enter search term...">
                             <button class="btn btn-primary" id="searchButton">Search</button>
                         </div>
-
+                        <!-- Preset dropdown -->
+                        <select id="presetDropdown" class="form-select" size="6" style="max-height: 240px; overflow-y: auto;">
+                            <option value="">-- Select preset search --</option>
+                        </select>
                     </div>
                     <div id="searchResults" class="list-group flex-grow-1 overflow-auto"></div>
                     <div id="loadMoreContainer" class="p-3 border-top">
@@ -88,6 +98,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        function toggleDetails(event) {
+            event.preventDefault();
+            const content = document.getElementById('detailsContent');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        }
+    </script>
 
     <style>
     .search-container {

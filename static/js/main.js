@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let hasMoreResults = true;
     let allResults = [];
 
+    // Preset dropdown elements / state tracking
+    const presetDropdown = document.getElementById('presetDropdown');
+    let currentMode = 'search'; // 'search' | 'preset'
+    let selectedPresetFile = '';
+
     // Reset search state
     function resetSearch() {
         currentPage = 1;
@@ -27,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle search button click
     searchButton.addEventListener('click', () => {
+        currentMode = 'search';
+        selectedPresetFile = '';
         resetSearch();
         performSearch();
     });
@@ -34,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle Enter key in search input
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
+            currentMode = 'search';
+            selectedPresetFile = '';
             resetSearch();
             performSearch();
         }
@@ -43,7 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
     loadMoreButton.addEventListener('click', () => {
         if (!isLoading && hasMoreResults) {
             currentPage++;
-            performSearch();
+            if (currentMode === 'search') {
+                performSearch();
+            } else if (currentMode === 'preset') {
+                performPresetSearch();
+            }
         }
     });
 
@@ -122,31 +135,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            // Always use JSONL search endpoint
-            const endpoint = '/search_jsonl';
-            const response = await fetch(`${endpoint}?q=${encodeURIComponent(query)}&page=${currentPage}&per_page=${perPage}`);
+            // Use the new submit endpoint
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: query,
+                    page: currentPage
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Parse JSON response
             const data = await response.json();
             
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            
-            if (data.hits && data.hits.length > 0) {
+            if (data.results && data.results.length > 0) {
                 searchResults.innerHTML = ''; // Clear loading indicator
                 
                 // Add search method indicator
-                const searchMethod = 'JSONL';
+                const searchMethod = 'Typesense';
                 const indicator = document.createElement('div');
                 indicator.className = 'search-method-indicator p-3';
                 indicator.textContent = `Using ${searchMethod} Search`;
                 searchResults.appendChild(indicator);
                 
-                data.hits.forEach(hit => {
+                data.results.forEach(hit => {
                     const resultItem = createResultItem(hit, searchMethod);
                     searchResults.appendChild(resultItem);
                 });
                 
-                hasMoreResults = data.hits.length === perPage;
+                hasMoreResults = data.results.length === perPage;
                 loadMoreButton.style.display = hasMoreResults ? 'block' : 'none';
             } else {
                 hasMoreResults = false;
@@ -187,4 +210,114 @@ document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('pdfMasonryOverlay');
         if (overlay) overlay.classList.remove('hidden');
     }
+
+    // --- PRESET SEARCH LOGIC --- //
+    async function performPresetSearch() {
+        if (isLoading || !selectedPresetFile) return;
+
+        isLoading = true;
+        loadMoreButton.disabled = true;
+        loadMoreButton.textContent = 'Loading...';
+
+        // Loading indicator for first page
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.className = 'loading-indicator p-3 text-center';
+        loadingIndicator.innerHTML = `
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="mt-2">Loading preset results...</div>`;
+
+        if (currentPage === 1) {
+            searchResults.innerHTML = '';
+            searchResults.appendChild(loadingIndicator);
+        }
+
+        try {
+            const url = `/preset_jsonl?file=${encodeURIComponent(selectedPresetFile)}&page=${currentPage}&per_page=${perPage}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.results && data.results.length > 0) {
+                if (currentPage === 1) {
+                    searchResults.innerHTML = '';
+                }
+
+                const searchMethod = 'Preset';
+
+                if (currentPage === 1) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'search-method-indicator p-3';
+                    indicator.textContent = `Using ${selectedPresetFile.replace(/\.jsonl$/i, '')}`;
+                    searchResults.appendChild(indicator);
+                }
+
+                data.results.forEach(hit => {
+                    const resultItem = createResultItem(hit, searchMethod);
+                    searchResults.appendChild(resultItem);
+                });
+
+                hasMoreResults = data.results.length === perPage;
+                loadMoreButton.style.display = hasMoreResults ? 'block' : 'none';
+            } else {
+                hasMoreResults = false;
+                loadMoreButton.style.display = 'none';
+                if (currentPage === 1) {
+                    searchResults.innerHTML = '';
+                    const noResults = document.createElement('div');
+                    noResults.className = 'text-center p-3';
+                    noResults.textContent = 'No preset results found';
+                    searchResults.appendChild(noResults);
+                }
+            }
+        } catch (error) {
+            console.error('Preset search error:', error);
+            searchResults.innerHTML = '';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger m-3';
+            errorDiv.textContent = `Error: ${error.message}`;
+            searchResults.appendChild(errorDiv);
+            loadMoreButton.style.display = 'none';
+        } finally {
+            isLoading = false;
+            loadMoreButton.disabled = false;
+            loadMoreButton.textContent = 'Load More Results';
+        }
+    }
+
+    // Populate preset dropdown on page load
+    (async function populatePresetDropdown() {
+        try {
+            const response = await fetch('/jsonl_index');
+            if (!response.ok) return;
+            const data = await response.json();
+            if (data.files && Array.isArray(data.files)) {
+                data.files.forEach(file => {
+                    const option = document.createElement('option');
+                    option.value = file;
+                    option.textContent = file.replace(/\.jsonl$/i, '');
+                    presetDropdown.appendChild(option);
+                });
+            }
+        } catch (err) {
+            console.error('Error fetching preset list:', err);
+        }
+    })();
+
+    // Handle dropdown selection
+    presetDropdown.addEventListener('change', () => {
+        selectedPresetFile = presetDropdown.value;
+        if (selectedPresetFile) {
+            currentMode = 'preset';
+            resetSearch();
+            performPresetSearch();
+        } else {
+            // Placeholder selected – reset to search mode
+            currentMode = 'search';
+        }
+    });
 }); 

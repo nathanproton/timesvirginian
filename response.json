@@ -1,0 +1,348 @@
+{
+    "query": "harwood"
+}
+
+{
+    "results": [
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1949-1952a_0411.pdf",
+                "page": 1,
+                "text": "Harwood"
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            ],
+            "text_match": 578730123365711993,
+            "text_match_info": {
+                "best_field_score": "1108091339008",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365711993",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1949-1952a_0398.pdf",
+                "page": 1,
+                "text": "Harwood"
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            ],
+            "text_match": 578730123365711993,
+            "text_match_info": {
+                "best_field_score": "1108091339008",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365711993",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1949-1952a_0385.pdf",
+                "page": 1,
+                "text": "Harwood"
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            ],
+            "text_match": 578730123365711993,
+            "text_match_info": {
+                "best_field_score": "1108091339008",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365711993",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1943-1947a_0257.pdf",
+                "page": 1,
+                "text": "Harwood"
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "<mark>Harwood</mark>"
+                }
+            ],
+            "text_match": 578730123365711993,
+            "text_match_info": {
+                "best_field_score": "1108091339008",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365711993",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1947-1949a_0312.pdf",
+                "page": 1,
+                "text": "zone reen B e r lin  BACCO BELT IN 1HE HEART OF THE APPOMATTOX, Hixburg, Sept. 6.- The Rev. J. Stonewall, Sept. 7.- Well, the S. Moore will begin revival ser- school bells will begin to ring again vices at Mathews Baptist Church on here on Friday. We welcome our the second Sunday night, Septem- teachers ba.k again for the ses- ber 12, at 8 oclock. Rev. Sam Har- sion. wood, of Victoria, will assist him. These services will continue through Miss the week and close Friday night. Mrs. Sam Harwood will be at the organ and music will be led by J?er t oser Iarens  r and Mis. Sears Hix, of N. C. i  Turnes. Mr. and Mrs. George Jennings spent the week-end at Virginia Beach."
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "Friday night. Mrs. Sam <mark>Harwood</mark> will be at the"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "Friday night. Mrs. Sam <mark>Harwood</mark> will be at the"
+                }
+            ],
+            "text_match": 578730123365187705,
+            "text_match_info": {
+                "best_field_score": "1108091338752",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365187705",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1949-1952a_0359.pdf",
+                "page": 1,
+                "text": "Yours sincerely, A. R. Harwood"
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "Yours sincerely, A. R. <mark>Harwood</mark>"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "Yours sincerely, A. R. <mark>Harwood</mark>"
+                }
+            ],
+            "text_match": 578730123365187705,
+            "text_match_info": {
+                "best_field_score": "1108091338752",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365187705",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1947-1949a_0559.pdf",
+                "page": 1,
+                "text": "your wife shun, Insure your child an educatiog Insure your peace o! mls A. A. HARWOOD Insurance Agency Appomattox, V."
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "HARWOOD"
+                    ],
+                    "snippet": "your wife shun, Insure your child an educatiog Insure your peace o! mls A. A. <mark>HARWOOD</mark> Insurance Agency Appomattox, V."
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "HARWOOD"
+                    ],
+                    "snippet": "your wife shun, Insure your child an educatiog Insure your peace o! mls A. A. <mark>HARWOOD</mark> Insurance Agency Appomattox, V."
+                }
+            ],
+            "text_match": 578730123365187705,
+            "text_match_info": {
+                "best_field_score": "1108091338752",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365187705",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1949-1952a_0036.pdf",
+                "page": 1,
+                "text": "your child aa education Inaure  your poaco of ahd A. R. HARWOOD Insurance Agency Appomattox, Va."
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "HARWOOD"
+                    ],
+                    "snippet": "your child aa education Inaure  your poaco of ahd A. R. <mark>HARWOOD</mark> Insurance Agency Appomattox, Va."
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "HARWOOD"
+                    ],
+                    "snippet": "your child aa education Inaure  your poaco of ahd A. R. <mark>HARWOOD</mark> Insurance Agency Appomattox, Va."
+                }
+            ],
+            "text_match": 578730123365187705,
+            "text_match_info": {
+                "best_field_score": "1108091338752",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365187705",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1954-1955a_0217.pdf",
+                "page": 1,
+                "text": "Yesterday was the 100th a n n i versary of the establishment of a U. iS. Post Office at what is bow Appo mattox, Virginia. Information secured from Nation al Archives and the Post Office De partment, Washington, D. C., tells an interesting story of a full cen tury of mail service here. There have been 20 postmaster andor acting postmaster ap pointments in the 100 years of operation and the incumbent, E. LeRoy Smith, has served longer than any other. The name of the office has been changed several times. On February 23, 1855, a fourth class post office was established here and was call ed Nebraska, Virginia. The first postmaster was Samuel D. McDear- mon. Salary amounted to 6.01. The office operated under the name of Nebraska, Virginia until September 21, 1894, when it was changed to Appomattox. However, due to confusion with the Old Ap pomattox Court House community, the ñamé of the post office here changed on January 15, 189 to West Appomattox, Virginia. It oper ated under that name until June 27, 1906, when it took the present name of Appomattox, Virginia. The office became third class in 1909 and second class in 1987. In mid-1955 it is scheduled to become first class, due to volume of busi ness. Several years ago it became first class, but reverted to second class due to a shift in parcel post business. The following is a list of post masters and their terms Samuel D. MeDearmon, February 23, 1855 Richard H, Mavin, December 31. 1855 Robert I, Boaz, October 4, 1866 Thomas E. Walton, December 22 1867k D- Hix, April 20, 1869 Willbfo l CoIKntf April 1 , i860 Mrs. Mary J. Atwood, February 10, 1666.  Ada A. Landrum, June 26, 1866 N. H. Gregory, October 30, 1867 Miss Elizftbéth H. Dee, Jániury 21, 188 Rufus Furdum, January 1, 1873 Samuel H. Coleman, July 26, 1889 John S. Plunkett, May 9, 1898 Robert Irby, May 7, 1897 Leslie F. Ferguson, May 20, 1918 Robert Irby, April 28, 1922 Lula G. Irby, Acting Postmaster. Ap ril 21, 921 Alfred R. Harwood, Acting Poet- master, May 15, 7931 Joseph E. Dinwiddle, June 1, 1982 E. LeRoy Smith, Acting Poet- master, June 1, 1034 Regular Appointment, March 8, 1936. However, this was not the first pqst. office in what is now Appomat tox County, Tie following inform ation  supplied by the National Archives and reports of the Post Office Department Appomattox County, Virginia The records show that this office was established on April 1, 1811, under the name of Floods, Buckings ham County, Virginia, with Thomas Trent the first postmaster. It is shown that the name oi the county was changed to Prince Edward on March 22, 1837, that the name of the office was changed to Clover Hill on July 7, 1837 and that the county in which the office was lo cated was changed to Appomattox sometime between September 23, 1845 and June 30, 1849. The re cords show that the name of the office was changed to Appomattox Court House on February 3, 1859 and changed to Appomattox on July 3, 1892.  It therefore appears that the his tory of a post office at what is now without a post office but known as Old Appomattox Court House, is equally interesting. That part of the county was in Buckingham when the post office was established as Floods in 1811. Later it became a part of Prince Edward and finally Appo mattox in 1845. Shortly after the burning of the court house in 1892, the court house was rebuilt at what is now the Town of Appomattox, and final ly the post office at the historic old village was discontinued. It was of ficially Appomattox Court House, Virginia, at the time Gen. Lee sur rendered to Gen. Grant. Undocumented stories often told here relate that in the gold rush days a hundred years and more ago?- some family started out for Ne braska, got this far and liked the place so much that they decided to settle here and call this Nebraska. This newspaper has no proof of that"
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "21, 921 Alfred R. <mark>Harwood</mark>, Acting Poet- master, May"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "21, 921 Alfred R. <mark>Harwood</mark>, Acting Poet- master, May"
+                }
+            ],
+            "text_match": 578730123365187705,
+            "text_match_info": {
+                "best_field_score": "1108091338752",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365187705",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        },
+        {
+            "document": {
+                "file": "AppomattoxNewspapers_1908-1909a_0154.pdf",
+                "page": 1,
+                "text": "years ago I had a business transaction with The Fanners National Bank here which also involved a like trans action through The State Bank of Pamplin in which several hundred dollars was involved which after some reflection and checking up on my part I felt and was of the opinion that an error of several hundred dollars had been made against me and, requested Mr. Harwood, cashier of The Farm ers National Bank to investigate the m atter thoroughly going back . over his records and see if any error had been made. Mr. Harwood informs me that he has made careful and pains taking research regarding this transaction and assures ihe that the transaction was correct, which explanation I accept and hereby make public the fact that I am now satisfied with his explana tion and wish to make public apology for any statement which luj.taignjthave made which would E ffect on any one with regard to, this business transaction. J ohn W. W ebb . W itness R. L. Burke."
+            },
+            "highlight": {
+                "text": {
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "me and, requested Mr. <mark>Harwood</mark>, cashier of The Farm"
+                }
+            },
+            "highlights": [
+                {
+                    "field": "text",
+                    "matched_tokens": [
+                        "Harwood"
+                    ],
+                    "snippet": "me and, requested Mr. <mark>Harwood</mark>, cashier of The Farm"
+                }
+            ],
+            "text_match": 578730123365187705,
+            "text_match_info": {
+                "best_field_score": "1108091338752",
+                "best_field_weight": 15,
+                "fields_matched": 1,
+                "num_tokens_dropped": 0,
+                "score": "578730123365187705",
+                "tokens_matched": 1,
+                "typo_prefix_score": 0
+            }
+        }
+    ]
+}

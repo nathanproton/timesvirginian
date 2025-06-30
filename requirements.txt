@@ -3,3 +3,4 @@ PyMuPDF
 boto3
 python-dotenv
 Flask-Limiter
+requests
