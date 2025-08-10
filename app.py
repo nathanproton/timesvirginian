@@ -78,6 +78,10 @@ def log_search(query, ip, user_agent, status, results_count=None):
 def index():
     return render_template('index.html')
 
+@app.route('/mobile')
+def mobile():
+    return render_template('mobile.html')
+
 @app.route('/jsonl')
 def get_jsonl():
     """Serve the JSONL file"""
@@ -158,12 +162,20 @@ def get_pdf(filename):
         print(f"Error serving PDF: {str(e)}")
         return "PDF not found", 404
 
-@app.route('/highlight')
+@app.route('/highlight', methods=['GET', 'POST'])
 def highlight():
-    filename = request.args.get('file')
-    bbox = request.args.get('bbox')
-    page = int(request.args.get('page', 1))
-    text = request.args.get('text', '')
+    if request.method == 'POST':
+        data = request.get_json()
+        filename = data.get('file')
+        bbox = data.get('bbox')
+        page = int(data.get('page', 1))
+        text = data.get('text', '')
+    else:
+        # Keep GET support for backward compatibility
+        filename = request.args.get('file')
+        bbox = request.args.get('bbox')
+        page = int(request.args.get('page', 1))
+        text = request.args.get('text', '')
     
     if not all([filename, bbox]):
         return "Missing parameters", 400
@@ -185,9 +197,14 @@ def highlight():
             print(f"Error fetching PDF from Spaces: {str(e)}")
             return f"Error fetching PDF: {str(e)}", 404
         
-        # Parse bbox from string "[x0,y0,x1,y1]" to list of floats
+        # Parse bbox from string "[x0,y0,x1,y1]" to list of floats (for GET) or use directly (for POST)
         try:
-            bbox = [float(x) for x in bbox.strip('[]').split(',')]
+            if isinstance(bbox, str):
+                bbox = [float(x) for x in bbox.strip('[]').split(',')]
+            elif isinstance(bbox, list):
+                bbox = [float(x) for x in bbox]
+            else:
+                raise ValueError("Invalid bbox format")
         except Exception as e:
             print(f"Error parsing bbox: {str(e)}")
             return "Invalid bbox format", 400

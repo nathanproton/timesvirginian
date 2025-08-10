@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Times Virginian Search - Mobile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400&family=Anton&family=Roboto+Slab:wght@700&family=Special+Elite&family=Bungee&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="vh-100">
+    <div class="container-fluid h-100 p-0">
+        <!-- Main Search Interface -->
+        <div id="searchInterface" class="h-100">
+            <div class="search-container h-100 d-flex flex-column">
+                <div class="p-3 pb-2 mb-0">
+                    <div class="d-flex align-items-center" style="background-color: black; padding: 0.5rem 1rem; border-radius: 4px;">
+                        <div style="font-family: 'Instrument Serif', serif; font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; color: white;">Morningside</div>
+                    </div>
+                    <div style="font-size: 1.5rem; font-family: sans-serif; margin-top: 0.5rem;">Appomattox Times-Virginian</div>
+                    <div style="font-size: 1rem; color: #555; margin-top: 0.25rem;">
+                        <!-- Collapsible Details & Attribution -->
+                        <div>
+                            <a href="#" onclick="toggleDetails(event)" style="color: #007bff; text-decoration: underline; font-size: 0.9rem; cursor: pointer;">
+                                Details & Attribution
+                            </a>
+                            <div id="detailsContent" style="display: none; font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                                Digital archives of the Appomattox Times-Virginian. Consists of 2.2 million paragraphs spanning from 1892 to 1984. Sponsored by the Town of Appomattox and the Appomattox County Historical Society
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <!-- Search Bar -->
+                    <div class="input-group mb-2">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Enter search term...">
+                        <button class="btn btn-primary" id="searchButton">Search</button>
+                    </div>
+                </div>
+                <div id="searchResults" class="list-group flex-grow-1 overflow-auto"></div>
+                <div id="loadMoreContainer" class="p-3 border-top">
+                    <button id="loadMoreButton" class="btn btn-primary w-100" style="display: none;">Load More Results</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PDF Modal -->
+        <div id="pdfModal" class="pdf-modal" style="display: none;">
+            <div class="pdf-modal-header">
+                <button id="backToResults" class="back-button">← BACK TO RESULTS</button>
+            </div>
+            <div class="pdf-modal-content">
+                <iframe id="pdfFrame" class="pdf-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/mobile.js') }}"></script>
+    
+    <script>
+        function toggleDetails(event) {
+            event.preventDefault();
+            const content = document.getElementById('detailsContent');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
+        }
+    </script>
+
+    <style>
+    .search-container {
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+    }
+
+    .search-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .toggle-label {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .search-result-item {
+        cursor: pointer;
+        transition: background-color 0.2s;
+        padding: 12px 16px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .search-result-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .search-result-item.active {
+        background-color: #e9ecef;
+    }
+
+    #loadMoreContainer {
+        background-color: white;
+    }
+
+    #loadMoreButton:disabled {
+        cursor: not-allowed;
+    }
+
+    /* PDF Modal Styles */
+    .pdf-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pdf-modal-header {
+        background-color: #fff;
+        padding: 12px 16px;
+        border-bottom: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: relative;
+        z-index: 1001;
+    }
+
+    .back-button {
+        background: none;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: #007bff;
+        cursor: pointer;
+        padding: 8px 0;
+        text-align: left;
+        width: 100%;
+    }
+
+    .back-button:hover {
+        color: #0056b3;
+    }
+
+    .pdf-modal-content {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .pdf-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+        .search-container {
+            border-right: none;
+        }
+        
+        .pdf-modal-header {
+            padding: 16px 20px;
+        }
+        
+        .back-button {
+            font-size: 18px;
+            padding: 12px 0;
+        }
+        
+        .search-result-item {
+            padding: 16px 20px;
+            font-size: 16px;
+        }
+        
+        /* Improve touch targets */
+        #searchButton, #loadMoreButton {
+            min-height: 44px;
+        }
+        
+        #searchInput {
+            min-height: 44px;
+        }
+    }
+
+    /* Add smooth transitions */
+    .pdf-modal {
+        transition: opacity 0.3s ease;
+    }
+
+    .pdf-modal.showing {
+        opacity: 1;
+    }
+
+    .pdf-modal.hiding {
+        opacity: 0;
+    }
+    </style>
+</body>
+</html> 

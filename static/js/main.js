@@ -197,9 +197,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function loadPDFWithHighlight(doc) {
-        const highlightUrl = `/highlight?file=${encodeURIComponent(doc.file)}&page=${doc.page}&bbox=${encodeURIComponent(JSON.stringify(doc.bbox))}&text=${encodeURIComponent(doc.text)}`;
-        pdfFrame.src = highlightUrl;
+    async function loadPDFWithHighlight(doc) {
+        try {
+            const response = await fetch('/highlight', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    file: doc.file,
+                    page: doc.page,
+                    bbox: doc.bbox,
+                    text: doc.text
+                })
+            });
+            
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                pdfFrame.src = url;
+                
+                // Clean up the previous blob URL if it exists
+                if (pdfFrame.currentBlobUrl) {
+                    URL.revokeObjectURL(pdfFrame.currentBlobUrl);
+                }
+                pdfFrame.currentBlobUrl = url;
+            } else {
+                console.error('Error loading PDF:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error loading PDF:', error);
+        }
+        
         // Hide the masonry overlay
         const overlay = document.getElementById('pdfMasonryOverlay');
         if (overlay) overlay.classList.add('hidden');
@@ -210,6 +239,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('pdfMasonryOverlay');
         if (overlay) overlay.classList.remove('hidden');
     }
+
+    // Clean up blob URLs when page is unloaded to prevent memory leaks
+    window.addEventListener('beforeunload', () => {
+        if (pdfFrame.currentBlobUrl) {
+            URL.revokeObjectURL(pdfFrame.currentBlobUrl);
+        }
+    });
 
     // --- PRESET SEARCH LOGIC --- //
     async function performPresetSearch() {
