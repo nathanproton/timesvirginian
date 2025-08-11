@@ -23,6 +23,25 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Set up file logging for searches
+search_logger = logging.getLogger('search_logger')
+search_logger.setLevel(logging.INFO)
+
+# Create logs directory if it doesn't exist
+logs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+os.makedirs(logs_dir, exist_ok=True)
+
+# Create file handler for search logs
+search_file_handler = logging.FileHandler(os.path.join(logs_dir, 'search_logs.txt'))
+search_file_handler.setLevel(logging.INFO)
+
+# Create formatter for search logs
+search_formatter = logging.Formatter('%(asctime)s - %(message)s')
+search_file_handler.setFormatter(search_formatter)
+
+# Add handler to search logger
+search_logger.addHandler(search_file_handler)
+
 app = Flask(__name__)
 
 # Initialize rate limiter
@@ -61,7 +80,7 @@ os.makedirs(LOCAL_JSONL_DIR, exist_ok=True)
 CACHE_URL_BASE = f"{SPACES_BASE_URL}/{PDF_BASE_DIR}/cache"
 
 def log_search(query, ip, user_agent, status, results_count=None):
-    """Log search activity"""
+    """Log search activity to both console and file"""
     log_data = {
         'query': query,
         'ip': ip,
@@ -72,7 +91,16 @@ def log_search(query, ip, user_agent, status, results_count=None):
     if results_count is not None:
         log_data['results_count'] = results_count
     
+    # Log to console
     logger.info(f"Search log: {json.dumps(log_data)}")
+    
+    # Log to file with detailed format
+    search_details = f"SEARCH: '{query}' | IP: {ip} | Status: {status}"
+    if results_count is not None:
+        search_details += f" | Results: {results_count}"
+    search_details += f" | User-Agent: {user_agent}"
+    
+    search_logger.info(search_details)
 
 @app.route('/')
 def index():
@@ -89,58 +117,6 @@ def get_jsonl():
         return send_file(JSONL_FILE, mimetype='application/json')
     except Exception as e:
         return jsonify({'error': str(e)}), 404
-
-@app.route('/search_jsonl')
-@limiter.limit("120 per hour")  # 120 requests per hour for search endpoint
-def search_jsonl_endpoint():
-    """Direct JSONL file search endpoint"""
-    query = request.args.get('q', '')
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 10))
-    
-    if not query:
-        return jsonify({'hits': [], 'found': 0})
-    
-    try:
-        # First pass: count total matches and collect all matching indices
-        matching_indices = []
-        with open(JSONL_FILE, 'r') as f:
-            for i, line in enumerate(f):
-                doc = json.loads(line)
-                if query.lower() in doc['text'].lower():
-                    matching_indices.append(i)
-        
-        total_matches = len(matching_indices)
-        
-        # Calculate which indices we need for this page
-        start_idx = (page - 1) * per_page
-        end_idx = start_idx + per_page
-        page_indices = matching_indices[start_idx:end_idx]
-        
-        # Second pass: get the actual documents for this page
-        results = []
-        with open(JSONL_FILE, 'r') as f:
-            for i, line in enumerate(f):
-                if i in page_indices:
-                    doc = json.loads(line)
-                    results.append({
-                        'document': doc,
-                        'highlights': [{
-                            'field': 'text',
-                            'snippet': doc['text'].replace(query, f'<mark>{query}</mark>'),
-                            'matched_tokens': [query]
-                        }]
-                    })
-                if i > max(page_indices) if page_indices else 0:
-                    break
-        
-        return jsonify({
-            'hits': results,
-            'found': total_matches
-        })
-    except Exception as e:
-        print(f"JSONL search error: {str(e)}")
-        return jsonify({'error': str(e)}), 500
 
 @app.route('/pdf/<path:filename>')
 def get_pdf(filename):
